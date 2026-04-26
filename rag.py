@@ -24,9 +24,10 @@ print(f"Embedding shape: {embeddings.shape}")
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 
-def retrieve(question, chunks, embeddings, top_k=2):
+def retrieve(question, chunks, embeddings, top_k=3):
     question_embedding = model.encode([question])
     similarities = cosine_similarity(question_embedding, embeddings)[0]
+    print(similarities)
     top_indices = np.argsort(similarities)[::-1][:top_k]
     return [chunks[i] for i in top_indices]
 

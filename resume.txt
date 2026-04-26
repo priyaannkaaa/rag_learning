@@ -21,7 +21,6 @@ PROJECTS
    Built a multi-turn conversational chatbot using Groq API and Llama 3.3.
    Implemented system prompts, conversation history, and secure API key management.
    Tech: Python, Groq API, python-dotenv
-
 2. Student Result Predictor
    Trained a classification model to predict student performance based on attendance and scores.
    Achieved 87% accuracy using Random Forest.
