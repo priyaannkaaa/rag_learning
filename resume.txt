@@ -1,0 +1,38 @@
+Name: Priya Sharma
+Email: priya.sharma@email.com
+Location: Surat, Gujarat, India
+
+SUMMARY
+Recent computer science graduate with strong foundation in Python, machine learning, and deep learning. Passionate about AI engineering and building intelligent systems. Currently learning RAG, LLMs, and applied AI development.
+
+EDUCATION
+Bachelor of Engineering in Computer Science
+SVNIT, Surat — 2021 to 2025
+CGPA: 8.4 / 10
+
+SKILLS
+Programming: Python, SQL, Git
+ML/DL: NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch
+AI/LLM: Prompt Engineering, LLM APIs, RAG Systems
+Tools: VS Code, GitHub, Jupyter Notebook
+
+PROJECTS
+1. Conversational AI Chatbot
+   Built a multi-turn conversational chatbot using Groq API and Llama 3.3.
+   Implemented system prompts, conversation history, and secure API key management.
+   Tech: Python, Groq API, python-dotenv
+
+2. Student Result Predictor
+   Trained a classification model to predict student performance based on attendance and scores.
+   Achieved 87% accuracy using Random Forest.
+   Tech: Python, Scikit-learn, Pandas
+
+EXPERIENCE
+AI Engineering Intern — TechStartup Surat
+June 2024 to August 2024
+Assisted in building internal document search tool using Python.
+Worked with APIs and data pipelines.
+
+CERTIFICATIONS
+Deep Learning Specialization — Coursera (Andrew Ng)
+Python for Data Science — NPTEL
