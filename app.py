@@ -3,12 +3,29 @@ from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 from groq import Groq
 from dotenv import load_dotenv
+from pypdf import PdfReader
 import numpy as np
 import os
 
 load_dotenv()
 client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 embed_model = SentenceTransformer('all-MiniLM-L6-v2')
+
+def extract_text_from_pdf(file_path):
+    reader = PdfReader(file_path)
+    text = ""
+    for page in reader.pages:
+        text += page.extract_text()
+    return text
+
+def chunk_text(text, chunk_size=500, overlap=50):
+    chunks = []
+    start = 0
+    while start < len(text):
+        end = start + chunk_size
+        chunks.append(text[start:end])
+        start = end - overlap
+    return chunks
 
 def retrieve(question, chunks, embeddings, top_k=5):
     q_emb = embed_model.encode([question])
@@ -18,14 +35,22 @@ def retrieve(question, chunks, embeddings, top_k=5):
 
 @cl.on_chat_start
 async def start():
-    with open("resume.txt", "r") as f:
-        text = f.read()
-    chunks = [c.strip() for c in text.split("\n\n") if c.strip()]
+    files = await cl.AskFileMessage(
+        content="Upload a PDF to get started!",
+        accept=["application/pdf"],
+        max_size_mb=10
+    ).send()
+
+    file = files[0]
+    text = extract_text_from_pdf(file.path)
+    chunks = chunk_text(text)
     embeddings = embed_model.encode(chunks)
+
     cl.user_session.set("chunks", chunks)
     cl.user_session.set("embeddings", embeddings)
     cl.user_session.set("history", [])
-    await cl.Message(content="Hi! I've loaded the resume. Ask me anything about it!").send()
+
+    await cl.Message(content=f"PDF loaded! {len(chunks)} chunks created. Ask me anything!").send()
 
 @cl.on_message
 async def main(message: cl.Message):
@@ -35,7 +60,6 @@ async def main(message: cl.Message):
 
     question = message.content
     relevant_chunks = retrieve(question, chunks, embeddings)
-    print("Retrieved chunks:", relevant_chunks)
     context = "\n\n".join(relevant_chunks)
 
     history.append({"role": "user", "content": question})
